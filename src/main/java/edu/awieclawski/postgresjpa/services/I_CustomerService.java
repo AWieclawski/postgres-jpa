@@ -1,17 +1,26 @@
 package edu.awieclawski.postgresjpa.services;
 
-import java.util.Optional;
+//import java.util.Optional;
 
-import edu.awieclawski.postgresjpa.entities.Customer;
+import edu.awieclawski.postgresjpa.dto.CustomerData;
+//import edu.awieclawski.postgresjpa.entities.Customer;
 
 public interface I_CustomerService {
 
-	Customer save(Customer entity);
+//	Customer save(Customer entity);
+//
+//	Optional<Customer> findById(Long id);
+//
+//	Customer findOne();
+//
+//	Iterable<Customer> findAll();
 
-	Optional<Customer> findById(Long id);
+	CustomerData saveCustomer(CustomerData customer);
 
-	Customer findOne();
+	boolean deleteCustomer(final Long customerId);
 
-	Iterable<Customer> findAll();
+	Iterable<CustomerData> getAllCustomers();
+
+	CustomerData getCustomerById(final Long customerId);
 
 }
