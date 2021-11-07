@@ -1,27 +1,18 @@
 package edu.awieclawski.postgresjpa.services.impl;
 
+import edu.awieclawski.postgresjpa.entities.Customer;
+import edu.awieclawski.postgresjpa.dto.CustomerData;
+import edu.awieclawski.postgresjpa.repository.CustomerRepository;
+import edu.awieclawski.postgresjpa.services.I_CustomerService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityNotFoundException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-//import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-
-import edu.awieclawski.postgresjpa.dto.CustomerData;
-import edu.awieclawski.postgresjpa.repository.CustomerRepository;
-import edu.awieclawski.postgresjpa.entities.Customer;
-import edu.awieclawski.postgresjpa.services.I_CustomerService;
-
-/**
- * acc. to:
- * https://www.javadevjournal.com/spring-boot/spring-boot-with-hibernate/
- *
- */
-@Service
+@Service("customerService")
 public class CustomerService implements I_CustomerService {
 
 	@Autowired
@@ -41,7 +32,7 @@ public class CustomerService implements I_CustomerService {
 
 	/**
 	 * Delete customer based on the customer ID.We can also use other option to
-	 * delete customer based on the entity (passing JPA entity class as method
+	 * delete customer based on the entoty (passing JPA entity class as method
 	 * parameter)
 	 * 
 	 * @param customerId
@@ -54,14 +45,13 @@ public class CustomerService implements I_CustomerService {
 	}
 
 	/**
-	 * Method to return list of all the available customers in the system.This is a
-	 * simple implementation but you might want to use pagination in the real world
-	 * example.
+	 * Method to return list of all the available customers in the system. This is a
+	 * simple implementation but pagination could be used as well.
 	 * 
 	 * @return list of customer
 	 */
 	@Override
-	public Iterable<CustomerData> getAllCustomers() {
+	public List<CustomerData> getAllCustomers() {
 		List<CustomerData> customers = new ArrayList<>();
 		List<Customer> customerList = customerRepository.findAll();
 		customerList.forEach(customer -> {
@@ -84,8 +74,8 @@ public class CustomerService implements I_CustomerService {
 	}
 
 	/**
-	 * Internal method to convert Customer JPA entity to the DTO object for frontend
-	 * data
+	 * Internal method to convert Customer JPA entity to the DTO object for
+	 * front-end data
 	 * 
 	 * @param customer
 	 * @return CustomerData
@@ -100,16 +90,15 @@ public class CustomerService implements I_CustomerService {
 	}
 
 	/**
-	 * Method to map the frontend customer object to the JPA customer entity.
+	 * Method to map the front-end customer object to the JPA customer entity.
 	 * 
 	 * @param customerData
 	 * @return Customer
 	 */
 	private Customer populateCustomerEntity(CustomerData customerData) {
-		Customer customer = new Customer();
-		customer.setFirstName(customerData.getFirstName());
-		customer.setLastName(customerData.getLastName());
-		customer.setEmail(customerData.getEmail());
+		Customer customer = Customer.fullCustomerBuilder().id(customerData.getId())
+				.firstName(customerData.getFirstName()).lastName(customerData.getLastName())
+				.email(customerData.getEmail()).build();
 		return customer;
 	}
 
