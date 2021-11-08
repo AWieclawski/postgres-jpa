@@ -1,4 +1,4 @@
-package edu.awieclawski.postgresjpa.repository;
+package edu.awieclawski.postgresjpa.repositories;
 
 import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.springframework.data.jpa.repository.JpaRepository;

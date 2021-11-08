@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import edu.awieclawski.postgresjpa.entities.Customer;
-import edu.awieclawski.postgresjpa.repository.CustomerRepository;
+import edu.awieclawski.postgresjpa.repositories.CustomerRepository;
 
 /**
  * 

@@ -1,8 +1,8 @@
 package edu.awieclawski.postgresjpa.services.impl;
 
 import edu.awieclawski.postgresjpa.entities.Customer;
+import edu.awieclawski.postgresjpa.repositories.CustomerRepository;
 import edu.awieclawski.postgresjpa.dto.CustomerData;
-import edu.awieclawski.postgresjpa.repository.CustomerRepository;
 import edu.awieclawski.postgresjpa.services.CustomerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
