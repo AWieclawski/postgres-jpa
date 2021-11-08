@@ -1,4 +1,4 @@
-package edu.awieclawski.postgresjpa.entities;
+package edu.awieclawski.postgresjpa.audits;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -8,10 +8,12 @@ import javax.persistence.Version;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@SuperBuilder
 
 /**
  * 
@@ -25,6 +27,6 @@ public abstract class VersionAudit {
 	private final String LONG_DEF_ZERO = "BIGINT DEFAULT 0";
 
 	@Version
-	@Column(name = "optlock", columnDefinition = LONG_DEF_ZERO, nullable = false)
-	private long version = 0L;
+	@Column(name = "version", columnDefinition = LONG_DEF_ZERO, nullable = false)
+	private long version;
 }

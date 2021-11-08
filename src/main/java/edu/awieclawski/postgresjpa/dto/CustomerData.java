@@ -1,16 +1,20 @@
 package edu.awieclawski.postgresjpa.dto;
 
-/**
- * 
- * @author AWieclawski
- *
- */
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 
+/**
+ * 
+ * @author AWieclawski
+ *
+ */
 public class CustomerData {
 
 	private Long id;

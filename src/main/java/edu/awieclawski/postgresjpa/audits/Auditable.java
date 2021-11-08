@@ -1,4 +1,4 @@
-package edu.awieclawski.postgresjpa.entities;
+package edu.awieclawski.postgresjpa.audits;
 
 /**
  * Abstract class to pass the audit related fields

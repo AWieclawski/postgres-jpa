@@ -2,7 +2,7 @@ package edu.awieclawski.postgresjpa.services;
 
 import edu.awieclawski.postgresjpa.dto.CustomerData;
 
-public interface I_CustomerService {
+public interface CustomerService {
 
 	CustomerData saveCustomer(CustomerData customer);
 

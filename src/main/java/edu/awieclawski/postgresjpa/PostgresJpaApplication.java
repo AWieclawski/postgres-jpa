@@ -33,11 +33,13 @@ public class PostgresJpaApplication {
 	public CommandLineRunner demo(CustomerRepository repository) {
 		return (args) -> {
 
-			repository.save(Customer.customerBuilder().firstName("John").lastName("Doeski").email("john@test.com").build());
-			repository.save(Customer.customerBuilder().firstName("David").lastName("Dobrik").email("david@test.com").build());
-			repository
-					.save(Customer.customerBuilder().firstName("Robert").lastName("Hickle").email("robert@email.com").build());
-			repository.save(Customer.customerBuilder().firstName("Edgar").lastName("Smith").build());
+			repository.save(
+					Customer.builder().id(null).firstName("John").lastName("Doeski").email("john@test.com").build());
+			repository.save(
+					Customer.builder().id(null).firstName("David").lastName("Dobrik").email("david@test.com").build());
+			repository.save(Customer.builder().id(null).firstName("Robert").lastName("Hickle").email("robert@email.com")
+					.build());
+			repository.save(Customer.builder().id(null).firstName("Edgar").lastName("Smith").build());
 
 			// fetch all customers
 

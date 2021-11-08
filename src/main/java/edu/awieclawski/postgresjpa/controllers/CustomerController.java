@@ -3,7 +3,7 @@ package edu.awieclawski.postgresjpa.controllers;
 import org.springframework.web.bind.annotation.*;
 
 import edu.awieclawski.postgresjpa.dto.CustomerData;
-import edu.awieclawski.postgresjpa.services.I_CustomerService;
+import edu.awieclawski.postgresjpa.services.CustomerService;
 
 import javax.annotation.Resource;
 
@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 public class CustomerController {
 
     @Resource(name = "customerService")
-    private I_CustomerService customerService;
+    private CustomerService customerService;
 
     /**
      * <p>Get all customer data in the system.For production system you many want to use

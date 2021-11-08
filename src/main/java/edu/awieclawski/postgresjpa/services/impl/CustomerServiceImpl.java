@@ -3,7 +3,7 @@ package edu.awieclawski.postgresjpa.services.impl;
 import edu.awieclawski.postgresjpa.entities.Customer;
 import edu.awieclawski.postgresjpa.dto.CustomerData;
 import edu.awieclawski.postgresjpa.repository.CustomerRepository;
-import edu.awieclawski.postgresjpa.services.I_CustomerService;
+import edu.awieclawski.postgresjpa.services.CustomerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service("customerService")
-public class CustomerService implements I_CustomerService {
+public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	private CustomerRepository customerRepository;
@@ -81,11 +81,8 @@ public class CustomerService implements I_CustomerService {
 	 * @return CustomerData
 	 */
 	private CustomerData populateCustomerData(final Customer customer) {
-		CustomerData customerData = new CustomerData();
-		customerData.setId(customer.getId());
-		customerData.setFirstName(customer.getFirstName());
-		customerData.setLastName(customer.getLastName());
-		customerData.setEmail(customer.getEmail());
+		CustomerData customerData = CustomerData.builder().id(customer.getId()).firstName(customer.getFirstName())
+				.lastName(customer.getLastName()).email(customer.getEmail()).build();
 		return customerData;
 	}
 
@@ -96,9 +93,8 @@ public class CustomerService implements I_CustomerService {
 	 * @return Customer
 	 */
 	private Customer populateCustomerEntity(CustomerData customerData) {
-		Customer customer = Customer.fullCustomerBuilder().id(customerData.getId())
-				.firstName(customerData.getFirstName()).lastName(customerData.getLastName())
-				.email(customerData.getEmail()).build();
+		Customer customer = Customer.builder().id(customerData.getId()).firstName(customerData.getFirstName())
+				.lastName(customerData.getLastName()).email(customerData.getEmail()).build();
 		return customer;
 	}
 
