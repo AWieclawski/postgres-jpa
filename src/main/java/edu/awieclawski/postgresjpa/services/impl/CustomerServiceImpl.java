@@ -12,6 +12,15 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The simple service which will interact with the JPA repository to perform
+ * database operations, according to:
+ *
+ * https://www.javadevjournal.com/spring-boot/spring-boot-with-hibernate/
+ * 
+ * @author AWiecawski
+ *
+ */
 @Service("customerService")
 public class CustomerServiceImpl implements CustomerService {
 
@@ -45,8 +54,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	/**
-	 * Method to return list of all the available customers in the system. This is a
-	 * simple implementation but pagination could be used as well.
+	 * Method to return list of all the available customers in the system.
 	 * 
 	 * @return list of customer
 	 */
@@ -61,7 +69,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	/**
-	 * Get customer by ID.The service will send the customer data else will throw
+	 * Get customer by ID. The service will send the customer data else will throw
 	 * the exception.
 	 * 
 	 * @param customerId
