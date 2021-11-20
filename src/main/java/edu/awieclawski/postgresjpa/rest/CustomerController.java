@@ -4,11 +4,12 @@ import org.springframework.web.bind.annotation.*;
 
 import edu.awieclawski.postgresjpa.dto.CustomerData;
 import edu.awieclawski.postgresjpa.services.CustomerService;
+import edu.awieclawski.postgresjpa.config.Paths;
 
 import javax.annotation.Resource;
 
 @RestController
-@RequestMapping("/restapi/customers")
+@RequestMapping(Paths.API_CUSTOMERS)
 public class CustomerController {
 
 	@Resource(name = "customerService")

@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import edu.awieclawski.postgresjpa.audits.Auditable;
@@ -28,7 +29,6 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Table(name = Customer.TABLE_NAME)
 public class Customer extends Auditable<String> {
-// Auditable {
 
 	public static final String TABLE_NAME = "customers";
 
@@ -45,7 +45,13 @@ public class Customer extends Auditable<String> {
 	@Column(updatable = true, name = "email", nullable = true, length = 50)
 	private String email;
 
-	@Column(updatable = true, name = "is_deleted", columnDefinition = "boolean default true")
+	@Column(updatable = true, name = "is_deleted", columnDefinition = "boolean NOT NULL DEFAULT false")
 	private Boolean isDeleted;
+
+	@PrePersist
+	public void prePersist() {
+		if (this.isDeleted == null)
+			this.isDeleted = Boolean.valueOf(false);
+	}
 
 }

@@ -1,7 +1,5 @@
 package edu.awieclawski.postgresjpa;
 
-//import java.util.logging.Level;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -31,22 +29,30 @@ public class PostgresJpaApplication {
 		SpringApplication.run(PostgresJpaApplication.class, args);
 	}
 
+	/**
+	 * Inserts examples if Customers table is empty
+	 * 
+	 * @param repository
+	 * @return
+	 */
 	@Bean
 	public CommandLineRunner demo(CustomerRepository repository) {
 		return (args) -> {
 
-			repository.save(
-					Customer.builder().id(null).firstName("John").lastName("Doeski").email("john@test.com").build());
-			repository.save(
-					Customer.builder().id(null).firstName("David").lastName("Dobrik").email("david@test.com").build());
-			repository.save(Customer.builder().id(null).firstName("Robert").lastName("Hickle").email("robert@email.com")
-					.build());
-			repository.save(Customer.builder().id(null).firstName("Edgar").lastName("Smith").build());
+			if (repository.findById(1L).isEmpty()) {
+				repository.save(Customer.builder().id(null).firstName("John").lastName("Doeski").email("john@test.com")
+						.build());
+				repository.save(Customer.builder().id(null).firstName("David").lastName("Dobrik")
+						.email("david@test.com").build());
+				repository.save(Customer.builder().id(null).firstName("Robert").lastName("Hickle")
+						.email("robert@email.com").build());
+				repository.save(Customer.builder().id(null).firstName("Edgar").lastName("Smith").build());
 
-			// fetch all customers
+				// fetch all customers
 
-			for (Customer customer : repository.findAll()) {
-				log.warn(customer.toString());
+				for (Customer customer : repository.findAll()) {
+					log.warn(customer.toString());
+				}
 			}
 		};
 	}

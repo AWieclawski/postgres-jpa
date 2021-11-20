@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.awieclawski.postgresjpa.config.Paths;
 import edu.awieclawski.postgresjpa.entities.Customer;
 import edu.awieclawski.postgresjpa.repositories.CustomerRepository;
 
@@ -26,7 +27,7 @@ import edu.awieclawski.postgresjpa.repositories.CustomerRepository;
  *
  */
 @RestController
-@RequestMapping("/restapi/changes")
+@RequestMapping(Paths.API_CHANGES)
 public class CustomersChangesController {
 
 	private final Javers javers;
