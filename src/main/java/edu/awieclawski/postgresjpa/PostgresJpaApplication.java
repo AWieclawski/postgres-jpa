@@ -1,5 +1,7 @@
 package edu.awieclawski.postgresjpa;
 
+//import java.util.logging.Level;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -44,7 +46,7 @@ public class PostgresJpaApplication {
 			// fetch all customers
 
 			for (Customer customer : repository.findAll()) {
-				log.info(customer.toString());
+				log.warn(customer.toString());
 			}
 		};
 	}

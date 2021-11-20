@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class JaversConfiguration {
+
 	@Bean
 	public AuthorProvider provideJaversAuthor() {
 		return new SimpleAuthorProvider();

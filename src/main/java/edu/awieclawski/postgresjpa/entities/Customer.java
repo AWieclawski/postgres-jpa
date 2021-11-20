@@ -8,17 +8,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import edu.awieclawski.postgresjpa.audits.Auditable;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.experimental.SuperBuilder;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 
 /**
  * 
@@ -27,7 +27,8 @@ import lombok.Builder;
  */
 @Entity
 @Table(name = Customer.TABLE_NAME)
-public class Customer extends Auditable<Long> {
+public class Customer extends Auditable<String> {
+// Auditable {
 
 	public static final String TABLE_NAME = "customers";
 
@@ -43,5 +44,8 @@ public class Customer extends Auditable<Long> {
 
 	@Column(updatable = true, name = "email", nullable = true, length = 50)
 	private String email;
+
+	@Column(updatable = true, name = "is_deleted", columnDefinition = "boolean default true")
+	private Boolean isDeleted;
 
 }

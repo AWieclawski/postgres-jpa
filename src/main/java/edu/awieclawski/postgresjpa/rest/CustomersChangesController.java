@@ -1,12 +1,12 @@
-package edu.awieclawski.postgresjpa.controllers;
+package edu.awieclawski.postgresjpa.rest;
 
 import java.util.List;
 
 import org.javers.core.Changes;
 import org.javers.core.Javers;
-import org.javers.repository.jql.QueryBuilder;
 import org.javers.core.metamodel.object.CdoSnapshot;
 import org.javers.repository.jql.JqlQuery;
+import org.javers.repository.jql.QueryBuilder;
 import org.javers.shadow.Shadow;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +26,7 @@ import edu.awieclawski.postgresjpa.repositories.CustomerRepository;
  *
  */
 @RestController
-@RequestMapping("/changes")
+@RequestMapping("/restapi/changes")
 public class CustomersChangesController {
 
 	private final Javers javers;

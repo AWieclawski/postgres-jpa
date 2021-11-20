@@ -13,12 +13,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
+@SuperBuilder
 
 /**
  * 
@@ -29,6 +31,7 @@ import lombok.Setter;
 @Entity
 @Table(name = Email.TABLE_NAME)
 public class Email extends Auditable<String> {
+// Auditable {
 
 	public static final String TABLE_NAME = "emails";
 
@@ -44,8 +47,9 @@ public class Email extends Auditable<String> {
 	@Column(updatable = true, name = "domain", nullable = false, length = 50)
 	private String domain;
 
+	@Override
 	public String toString() {
-		return name + "@" + domain;
+		return String.format("%s@%s", name, domain);
 	}
 
 }

@@ -8,6 +8,8 @@ public interface CustomerService {
 
 	boolean deleteCustomer(final Long customerId);
 
+	boolean updateCustomerIsDeleted(Long customerId);
+
 	Iterable<CustomerData> getAllCustomers();
 
 	CustomerData getCustomerById(final Long customerId);

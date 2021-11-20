@@ -41,7 +41,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	/**
 	 * Delete customer based on the customer ID.We can also use other option to
-	 * delete customer based on the entoty (passing JPA entity class as method
+	 * delete customer based on the entity (passing JPA entity class as method
 	 * parameter)
 	 * 
 	 * @param customerId
@@ -51,6 +51,19 @@ public class CustomerServiceImpl implements CustomerService {
 	public boolean deleteCustomer(Long customerId) {
 		customerRepository.deleteById(customerId);
 		return true;
+	}
+
+	/**
+	 * Delete customer based on the customer ID.We can also use other option to
+	 * delete customer based on the entity (passing JPA entity class as method
+	 * parameter)
+	 * 
+	 * @param customerId
+	 * @return boolean flag indicating the request status
+	 */
+	@Override
+	public boolean updateCustomerIsDeleted(Long customerId) {
+		return customerRepository.updateCustomerIsDeleted(customerId) > 0;
 	}
 
 	/**
@@ -90,7 +103,8 @@ public class CustomerServiceImpl implements CustomerService {
 	 */
 	private CustomerData populateCustomerData(final Customer customer) {
 		CustomerData customerData = CustomerData.builder().id(customer.getId()).firstName(customer.getFirstName())
-				.lastName(customer.getLastName()).email(customer.getEmail()).build();
+				.lastName(customer.getLastName()).email(customer.getEmail()).isDeleted(customer.getIsDeleted())
+				.createdBy(customer.getCreatedBy()).createdDate(customer.getCreatedDate()).build();
 		return customerData;
 	}
 
@@ -102,7 +116,9 @@ public class CustomerServiceImpl implements CustomerService {
 	 */
 	private Customer populateCustomerEntity(CustomerData customerData) {
 		Customer customer = Customer.builder().id(customerData.getId()).firstName(customerData.getFirstName())
-				.lastName(customerData.getLastName()).email(customerData.getEmail()).build();
+				.lastName(customerData.getLastName()).email(customerData.getEmail())
+				.isDeleted(customerData.getIsDeleted()).createdBy(customerData.getCreatedBy())
+				.createdDate(customerData.getCreatedDate()).build();
 		return customer;
 	}
 
