@@ -7,7 +7,7 @@ package edu.awieclawski.postgresjpa.config;
  * @author AWieclawski
  *
  */
-public class Paths {
+public class CtrlrPaths {
 
 	/**
 	 * Simple api rest endpoint for Customers
