@@ -14,4 +14,6 @@ public interface CustomerService {
 
 	CustomerData getCustomerById(final Long customerId);
 
+	CustomerData getActiveCustomerById(Long customerId);
+
 }

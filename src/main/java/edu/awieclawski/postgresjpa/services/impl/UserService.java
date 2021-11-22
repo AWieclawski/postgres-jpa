@@ -39,7 +39,8 @@ public class UserService {
 	}
 
 	public User findUserByLogin(Long id) {
-		return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
+		return userRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(String.format("User with id=%d not found", id)));
 	}
 
 	public User saveUser(User user) {

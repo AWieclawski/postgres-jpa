@@ -1,16 +1,18 @@
 package edu.awieclawski.postgresjpa.services.impl;
 
-import edu.awieclawski.postgresjpa.entities.Customer;
-import edu.awieclawski.postgresjpa.repositories.CustomerRepository;
-import edu.awieclawski.postgresjpa.dto.CustomerData;
-import edu.awieclawski.postgresjpa.services.CustomerService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
+import edu.awieclawski.postgresjpa.dto.CustomerData;
+import edu.awieclawski.postgresjpa.entities.Customer;
+import edu.awieclawski.postgresjpa.repositories.CustomerRepository;
+import edu.awieclawski.postgresjpa.services.CustomerService;
 
 /**
  * The simple service which will interact with the JPA repository to perform
@@ -90,8 +92,23 @@ public class CustomerServiceImpl implements CustomerService {
 	 */
 	@Override
 	public CustomerData getCustomerById(Long customerId) {
-		return populateCustomerData(customerRepository.findById(customerId)
-				.orElseThrow(() -> new EntityNotFoundException("Customer not found")));
+		return populateCustomerData(customerRepository.findById(customerId).orElseThrow(
+				() -> new EntityNotFoundException(String.format("Customer with id=%d not found", customerId))));
+	}
+
+	/**
+	 * Get customer by ID. The service will send the customer data else will throw
+	 * the exception.
+	 * 
+	 * @param customerId
+	 * @return CustomerData
+	 */
+//	@Override
+	public CustomerData getActiveCustomerById(Long customerId) {
+		Optional<Customer> customerOpt = (isAdmin() ? customerRepository.findById(customerId)
+				: customerRepository.findOneActiveCustomer(customerId));
+		return populateCustomerData(customerOpt.orElseThrow(
+				() -> new EntityNotFoundException(String.format("Customer with id=%d not found", customerId))));
 	}
 
 	/**
@@ -120,6 +137,10 @@ public class CustomerServiceImpl implements CustomerService {
 				.isDeleted(customerData.getIsDeleted()).createdBy(customerData.getCreatedBy())
 				.createdDate(customerData.getCreatedDate()).build();
 		return customer;
+	}
+
+	public Boolean isAdmin() {
+		return true;
 	}
 
 }

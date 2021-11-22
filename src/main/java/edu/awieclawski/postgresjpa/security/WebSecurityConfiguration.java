@@ -11,16 +11,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import edu.awieclawski.postgresjpa.config.AppRoles;
+//import edu.awieclawski.postgresjpa.config.AppRoles;
+//import edu.awieclawski.postgresjpa.config.CtrlrPaths;
 import edu.awieclawski.postgresjpa.services.impl.MyUserDetailsService;
 
 /**
- * According to:
+ * - http://localhost:8080/registration
  * 
- * https://medium.com/@gustavo.ponce.ch/spring-boot-spring-mvc-spring-security-mysql-a5d8545d837d
- * 
- * or
- * 
- * https://www.codejava.net/frameworks/spring-boot/user-registration-and-login-tutorial
+ * - http://localhost:8080/login
  * 
  * @author AWieclawski
  *
@@ -46,32 +44,36 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		String loginPage = "/login";
 		String logoutPage = "/logout";
 
+		// TODO permit rest api
+
 		// @formatter:off
         http.
-                authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers(loginPage).permitAll()
-                .antMatchers("/registration").permitAll()
-                .antMatchers("/admin/**").hasAuthority(AppRoles.ADMIN.getRoleName())
-                .anyRequest()
-                .authenticated()
-                .and().csrf().disable()
-                .formLogin()
-                .loginPage(loginPage)
-                .loginPage("/")
-                .failureUrl("/login?error=true")
-                .defaultSuccessUrl("/admin/home")
-                .usernameParameter("user_name")
-                .passwordParameter("password")
-                .and().logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher(logoutPage))
-                .logoutSuccessUrl(loginPage).and().exceptionHandling();
+        authorizeRequests()
+        .antMatchers("/").permitAll()
+        .antMatchers(loginPage).permitAll()
+        .antMatchers("/registration").permitAll()
+        .antMatchers("/admin/**").hasAuthority(AppRoles.ADMIN.getRoleName())
+        .anyRequest()
+        .authenticated()
+        .and().csrf().disable()
+        .formLogin()
+        .loginPage(loginPage)
+        .loginPage("/")
+        .failureUrl("/login?error=true")
+        .defaultSuccessUrl("/admin/home")
+        .usernameParameter("user_name")
+        .passwordParameter("password")
+        .and().logout()
+        .logoutRequestMatcher(new AntPathRequestMatcher(logoutPage))
+        .logoutSuccessUrl(loginPage).and().exceptionHandling();
 		// @formatter:on
 	}
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
+		web.ignoring()
+
+				.antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
 	}
 
 }

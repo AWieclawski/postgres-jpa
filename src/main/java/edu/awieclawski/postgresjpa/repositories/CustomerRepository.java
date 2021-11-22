@@ -1,6 +1,7 @@
 package edu.awieclawski.postgresjpa.repositories;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,7 +20,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 	Collection<Customer> findAllActiveCustomers();
 
 	@Query("SELECT c FROM Customer c WHERE c.isDeleted = false AND c.id = : id")
-	Collection<Customer> findOneActiveCustomer(@Param("id") Long id);
+	Optional<Customer> findOneActiveCustomer(@Param("id") Long id);
 
 	@Modifying
 	@Query("UPDATE Customer c SET c.isDeleted = true WHERE c.id = : id")
