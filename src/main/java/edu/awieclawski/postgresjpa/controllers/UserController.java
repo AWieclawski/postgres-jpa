@@ -1,5 +1,7 @@
 package edu.awieclawski.postgresjpa.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,8 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import edu.awieclawski.postgresjpa.entities.User;
-import edu.awieclawski.postgresjpa.services.UserService;
+import edu.awieclawski.postgresjpa.credentials.entities.User;
+import edu.awieclawski.postgresjpa.credentials.services.UserService;
 import edu.awieclawski.postgresjpa.validator.UserValidator;
 
 @Controller
@@ -28,7 +30,7 @@ public class UserController {
 	}
 
 	@PostMapping("/registration")
-	public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
+	public String registration(@Valid @ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
 		userValidator.validate(userForm, bindingResult);
 
 		if (bindingResult.hasErrors()) {

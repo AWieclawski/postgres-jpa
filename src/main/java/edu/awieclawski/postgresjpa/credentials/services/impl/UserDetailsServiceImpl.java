@@ -1,4 +1,4 @@
-package edu.awieclawski.postgresjpa.services.impl;
+package edu.awieclawski.postgresjpa.credentials.services.impl;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,9 +12,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.awieclawski.postgresjpa.entities.Role;
-import edu.awieclawski.postgresjpa.entities.User;
-import edu.awieclawski.postgresjpa.repositories.UserRepository;
+import edu.awieclawski.postgresjpa.credentials.entities.Role;
+import edu.awieclawski.postgresjpa.credentials.entities.User;
+import edu.awieclawski.postgresjpa.credentials.repositories.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

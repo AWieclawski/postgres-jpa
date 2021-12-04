@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import edu.awieclawski.postgresjpa.services.impl.UserDetailsServiceImpl;
+import edu.awieclawski.postgresjpa.credentials.services.impl.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity

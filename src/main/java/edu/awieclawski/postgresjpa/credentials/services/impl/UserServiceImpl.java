@@ -1,4 +1,4 @@
-package edu.awieclawski.postgresjpa.services.impl;
+package edu.awieclawski.postgresjpa.credentials.services.impl;
 
 import java.util.HashSet;
 
@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import edu.awieclawski.postgresjpa.entities.User;
-import edu.awieclawski.postgresjpa.repositories.RoleRepository;
-import edu.awieclawski.postgresjpa.repositories.UserRepository;
-import edu.awieclawski.postgresjpa.services.UserService;
+import edu.awieclawski.postgresjpa.credentials.entities.User;
+import edu.awieclawski.postgresjpa.credentials.repositories.RoleRepository;
+import edu.awieclawski.postgresjpa.credentials.repositories.UserRepository;
+import edu.awieclawski.postgresjpa.credentials.services.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
