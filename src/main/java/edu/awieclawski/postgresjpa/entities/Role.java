@@ -1,38 +1,45 @@
 package edu.awieclawski.postgresjpa.entities;
 
-import javax.persistence.Column;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import edu.awieclawski.postgresjpa.config.AppRoles;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@Table(name = "roles")
+@Table(name = "role_tb")
 public class Role {
+    private Long id;
+    private String name;
+    private Set < User > users;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "role_id")
-	private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Long getId() {
+        return id;
+    }
 
-	@Column(name = "role_name", columnDefinition = "varchar(20) NOT NULL DEFAULT 'DEFAULT'")
-	private String role;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	@PrePersist
-	public void prePersist() {
-		if (this.role == null)
-			this.role = AppRoles.USER.getRoleName();
-	}
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @ManyToMany(mappedBy = "roles")
+    public Set < User > getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set < User > users) {
+        this.users = users;
+    }
 }
