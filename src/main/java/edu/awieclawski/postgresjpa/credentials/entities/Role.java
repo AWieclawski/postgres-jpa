@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import edu.awieclawski.postgresjpa.config.AppRoles;
@@ -30,6 +31,7 @@ public class Role {
 	@Column(name = "role_name", columnDefinition = "varchar(20) NOT NULL DEFAULT 'DEFAULT'")
 	private String name;
 
+	@PreUpdate
 	@PrePersist
 	public void prePersist() {
 		if (this.name == null)

@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
@@ -42,12 +43,15 @@ public class User {
 	private String username;
 
 	@Column(name = "password")
-	@Size(min = 8, max = 20, message = "*Password size 8 - 20 characters")
 	@NotEmpty(message = "*Please provide your password")
+//	@Size(min = 8, max = 20, message = "*Password size 8 - 20 characters")
 	private String password;
 
 	@Transient
 	private String passwordConfirm;
+
+	@Transient
+	private Boolean userExists;
 
 	@Column(name = "active", columnDefinition = "boolean NOT NULL DEFAULT true")
 	private Boolean active;
@@ -56,6 +60,7 @@ public class User {
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
 
+	@PreUpdate
 	@PrePersist
 	public void prePersist() {
 		if (this.active == null)

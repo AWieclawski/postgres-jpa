@@ -16,6 +16,7 @@ import edu.awieclawski.postgresjpa.validator.UserValidator;
 
 @Controller
 public class UserController {
+
 	@Autowired
 	private UserService userService;
 
@@ -31,6 +32,7 @@ public class UserController {
 
 	@PostMapping("/registration")
 	public String registration(@Valid @ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
+		userForm = userService.ifUserExists(userForm);
 		userValidator.validate(userForm, bindingResult);
 
 		if (bindingResult.hasErrors()) {
@@ -57,4 +59,5 @@ public class UserController {
 	public String welcome(Model model) {
 		return "welcome";
 	}
+
 }
