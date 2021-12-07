@@ -1,6 +1,8 @@
 package edu.awieclawski.postgresjpa.credentials.services.impl;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -10,11 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import edu.awieclawski.postgresjpa.credentials.entities.Role;
 import edu.awieclawski.postgresjpa.credentials.entities.User;
 import edu.awieclawski.postgresjpa.credentials.repositories.RoleRepository;
 import edu.awieclawski.postgresjpa.credentials.repositories.UserRepository;
 import edu.awieclawski.postgresjpa.credentials.services.UserService;
 
+/**
+ * Used by registration form
+ * 
+ * @author AWieclawski
+ *
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -31,8 +40,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void save(User user) {
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		user.setRoles(new HashSet<>(roleRepository.findAll()));
+//		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		user.setPassCrypt(bCryptPasswordEncoder.encode(user.getPassword()));
+		user.setRoles(getDefaulRole());
 		userRepository.save(user);
 	}
 
@@ -53,5 +63,17 @@ public class UserServiceImpl implements UserService {
 		}
 		user.setUserExists(result);
 		return user;
+	}
+
+	private Set<Role> getDefaulRole() {
+		Set<Role> roles = new HashSet<>();
+		roles.add(roleRepository.findByName(Role.DEFAULT_ROLENAME).orElseThrow(
+				() -> new EntityNotFoundException(" UserService - Role not found =" + Role.DEFAULT_ROLENAME)));
+		return roles;
+	}
+
+	@Override
+	public List<User> findAll() {
+		return userRepository.findAll();
 	}
 }

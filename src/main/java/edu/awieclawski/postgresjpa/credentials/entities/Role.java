@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import edu.awieclawski.postgresjpa.config.AppRoles;
 import lombok.AllArgsConstructor;
@@ -31,11 +32,15 @@ public class Role {
 	@Column(name = "role_name", columnDefinition = "varchar(20) NOT NULL DEFAULT 'DEFAULT'")
 	private String name;
 
+	@Transient
+	@Builder.Default
+	public static String DEFAULT_ROLENAME = AppRoles.USER.getRoleName();
+
 	@PreUpdate
 	@PrePersist
 	public void prePersist() {
 		if (this.name == null)
-			this.name = AppRoles.USER.getRoleName();
+			this.name = DEFAULT_ROLENAME;
 	}
 
 }

@@ -19,10 +19,13 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Builder
@@ -42,10 +45,17 @@ public class User {
 	@NotEmpty(message = "*Please provide a nique user name")
 	private String username;
 
-	@Column(name = "password")
+	@Transient
+	@JsonIgnore
+	@ToString.Exclude
 	@NotEmpty(message = "*Please provide your password")
-//	@Size(min = 8, max = 20, message = "*Password size 8 - 20 characters")
+	@Size(min = 8, max = 20, message = "*Password size 8 - 20 characters")
 	private String password;
+
+	@JsonIgnore
+	@ToString.Exclude
+	@Column(name = "password", nullable = false, updatable = true)
+	private String passCrypt;;
 
 	@Transient
 	private String passwordConfirm;

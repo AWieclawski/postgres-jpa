@@ -2,6 +2,8 @@ package edu.awieclawski.postgresjpa.controllers;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,8 @@ import edu.awieclawski.postgresjpa.validator.UserValidator;
 @Controller
 public class UserController {
 
+	private static final Logger log = LoggerFactory.getLogger(UserController.class);
+
 	@Autowired
 	private UserService userService;
 
@@ -31,7 +35,8 @@ public class UserController {
 	}
 
 	@PostMapping("/registration")
-	public String registration(@Valid @ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
+	public String registration(@Valid @ModelAttribute("userForm") User userForm, BindingResult bindingResult,
+			Model model, String error) {
 		userForm = userService.ifUserExists(userForm);
 		userValidator.validate(userForm, bindingResult);
 
@@ -40,6 +45,12 @@ public class UserController {
 		}
 
 		userService.save(userForm);
+
+		String msg = "User " + userForm.getUsername() + " registration completed.";
+		if (error != null)
+			model.addAttribute("message", msg);
+
+		log.info(msg);
 
 		return "redirect:/welcome";
 	}

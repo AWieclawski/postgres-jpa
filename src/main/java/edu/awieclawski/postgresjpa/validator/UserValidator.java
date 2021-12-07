@@ -24,11 +24,6 @@ public class UserValidator implements Validator {
 			return;
 		}
 
-		// if placed by @Size annotation at entity - DemoBeans can not save it encrypted
-		if (user.getPassword().length() < 8 || user.getPassword().length() > 20) {
-			errors.rejectValue("passwordConfirm", "Size.userForm.password");
-		}
-
 		if (!user.getPasswordConfirm().equals(user.getPassword()))
 			errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
 	}

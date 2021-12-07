@@ -17,11 +17,8 @@ import edu.awieclawski.postgresjpa.config.AppRoles;
 import edu.awieclawski.postgresjpa.credentials.entities.Role;
 import edu.awieclawski.postgresjpa.credentials.entities.User;
 import edu.awieclawski.postgresjpa.credentials.repositories.RoleRepository;
-import edu.awieclawski.postgresjpa.credentials.repositories.UserRepository;
 import edu.awieclawski.postgresjpa.credentials.services.UserService;
 import edu.awieclawski.postgresjpa.dto.CustomerData;
-import edu.awieclawski.postgresjpa.entities.Customer;
-import edu.awieclawski.postgresjpa.repositories.CustomerRepository;
 import edu.awieclawski.postgresjpa.services.CustomerService;
 
 @Component
@@ -31,16 +28,10 @@ public class DemoBeans implements CommandLineRunner {
 	private static final Logger log = LoggerFactory.getLogger(DemoBeans.class);
 
 	@Autowired
-	private CustomerRepository repository;
-
-	@Autowired
 	private CustomerService customerService;
 
 	@Autowired
 	private RoleRepository roleRepository;
-
-	@Autowired
-	private UserRepository userRepository;
 
 	@Autowired
 	private UserService userService;
@@ -61,7 +52,7 @@ public class DemoBeans implements CommandLineRunner {
 	}
 
 	public void demoCustomers() throws EntityNotFoundException {
-		if (repository.findAllActiveCustomers().size() < 1) {
+		if (customerService.getAllCustomers().iterator().hasNext()) {
 			customerService.saveCustomer(CustomerData.builder().id(null).firstName("John").lastName("Doeski")
 					.email("john@test.com").build());
 			customerService.saveCustomer(CustomerData.builder().id(null).firstName("David").lastName("Dobrik")
@@ -72,7 +63,7 @@ public class DemoBeans implements CommandLineRunner {
 
 			// fetch all customers
 
-			for (Customer customer : repository.findAll()) {
+			for (CustomerData customer : customerService.getAllCustomers()) {
 				log.warn(" -- customer=" + customer.toString());
 			}
 		}
@@ -92,7 +83,7 @@ public class DemoBeans implements CommandLineRunner {
 	}
 
 	public void demoUsers() throws EntityNotFoundException {
-		if (userRepository.findAll().size() < 1) {
+		if (userService.findAll().size() < 1) {
 
 			User userAdmin = User.builder().username("OberAdmin").password("123456789")
 					.roles(getAdminRoles(roleRepository)).build();
@@ -106,7 +97,7 @@ public class DemoBeans implements CommandLineRunner {
 
 			// fetch all users
 
-			for (User userTmp : userRepository.findAll()) {
+			for (User userTmp : userService.findAll()) {
 				log.warn(" -- userTmp=" + userTmp.toString());
 			}
 		}
