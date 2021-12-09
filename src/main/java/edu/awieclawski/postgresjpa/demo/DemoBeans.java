@@ -1,8 +1,7 @@
 package edu.awieclawski.postgresjpa.demo;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+//import java.util.Arrays;
+//import java.util.HashSet;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
@@ -16,11 +15,18 @@ import org.springframework.stereotype.Component;
 import edu.awieclawski.postgresjpa.config.AppRoles;
 import edu.awieclawski.postgresjpa.credentials.entities.Role;
 import edu.awieclawski.postgresjpa.credentials.entities.User;
+import edu.awieclawski.postgresjpa.credentials.entities.UserRegistration;
 import edu.awieclawski.postgresjpa.credentials.repositories.RoleRepository;
 import edu.awieclawski.postgresjpa.credentials.services.UserService;
 import edu.awieclawski.postgresjpa.dto.CustomerData;
 import edu.awieclawski.postgresjpa.services.CustomerService;
 
+/**
+ * https://sztukakodu.pl/jak-zmapowac-relacje-many-to-many-i-nie-zwariowac/
+ * 
+ * @author awieclawski
+ *
+ */
 @Component
 @Transactional
 public class DemoBeans implements CommandLineRunner {
@@ -38,20 +44,12 @@ public class DemoBeans implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		try {
-			log.warn(" ==> starts demoCustomers");
-			demoCustomers();
-			log.warn(" ==> starts demoRoles");
-			demoRoles();
-			log.warn(" ==> starts demoUsers");
-			demoUsers();
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}
-
+		demoCustomers();
+		demoRoles();
+		demoUsers();
 	}
 
-	public void demoCustomers() throws EntityNotFoundException {
+	public void demoCustomers() {
 		if (customerService.getAllCustomers().iterator().hasNext()) {
 			customerService.saveCustomer(CustomerData.builder().id(null).firstName("John").lastName("Doeski")
 					.email("john@test.com").build());
@@ -69,7 +67,7 @@ public class DemoBeans implements CommandLineRunner {
 		}
 	}
 
-	public void demoRoles() throws EntityNotFoundException {
+	public void demoRoles() {
 		if (roleRepository.findAll().size() < 1) {
 			roleRepository.save(Role.builder().name(AppRoles.ADMIN.getRoleName()).build());
 			roleRepository.saveAndFlush(Role.builder().name(AppRoles.USER.getRoleName()).build());
@@ -82,18 +80,16 @@ public class DemoBeans implements CommandLineRunner {
 		}
 	}
 
-	public void demoUsers() throws EntityNotFoundException {
+	public void demoUsers() {
 		if (userService.findAll().size() < 1) {
+			User userAdmin = User.builder().username("OberAdmin").password("123456789").build();
+			userAdmin.addUserRegistration(UserRegistration.builder().role(getAdminRole()).build());
+			userAdmin.addUserRegistration(UserRegistration.builder().role(getUserRole()).build());
+			userService.save(userAdmin);
 
-			User userAdmin = User.builder().username("OberAdmin").password("123456789")
-					.roles(getAdminRoles(roleRepository)).build();
-			if (userAdmin.getRoles().size() > 0)
-				userService.save(userAdmin);
-
-			User user = User.builder().username("SimpleUser").password("123456789").roles(getUserRoles(roleRepository))
-					.build();
-			if (user.getRoles().size() > 0)
-				userService.save(user);
+			User userSimple = User.builder().username("SimpleUser").password("123456789").build();
+			userSimple.addUserRegistration(UserRegistration.builder().role(getUserRole()).build());
+			userService.save(userSimple);
 
 			// fetch all users
 
@@ -103,18 +99,14 @@ public class DemoBeans implements CommandLineRunner {
 		}
 	}
 
-	private Set<Role> getAdminRoles(RoleRepository roleRepository) throws EntityNotFoundException {
-		Role roleAdmin = roleRepository.findByName(AppRoles.ADMIN.getRoleName())
+	private Role getAdminRole() {
+		return roleRepository.findByName(AppRoles.ADMIN.getRoleName())
 				.orElseThrow(() -> getRoleException(AppRoles.ADMIN.getRoleName()));
-		Role roleUser = roleRepository.findByName(AppRoles.USER.getRoleName())
-				.orElseThrow(() -> getRoleException(AppRoles.USER.getRoleName()));
-		return new HashSet<Role>(Arrays.asList(roleAdmin, roleUser));
 	}
 
-	private Set<Role> getUserRoles(RoleRepository roleRepository) throws EntityNotFoundException {
-		Role roleUser = roleRepository.findByName(AppRoles.USER.getRoleName())
+	private Role getUserRole() {
+		return roleRepository.findByName(AppRoles.USER.getRoleName())
 				.orElseThrow(() -> getRoleException(AppRoles.USER.getRoleName()));
-		return new HashSet<Role>(Arrays.asList(roleUser));
 	}
 
 	private EntityNotFoundException getRoleException(String role) {

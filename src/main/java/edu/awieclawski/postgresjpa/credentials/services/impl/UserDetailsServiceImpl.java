@@ -16,8 +16,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.awieclawski.postgresjpa.credentials.entities.Role;
 import edu.awieclawski.postgresjpa.credentials.entities.User;
+import edu.awieclawski.postgresjpa.credentials.entities.UserRegistration;
 import edu.awieclawski.postgresjpa.credentials.repositories.UserRepository;
 
 @Service
@@ -35,8 +35,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 				.orElseThrow(() -> new EntityNotFoundException(" UserDetailsService - User not found " + username));
 
 		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-		for (Role role : user.getRoles()) {
-			grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+		for (UserRegistration userReg : user.getRegistrations()) {
+			grantedAuthorities.add(new SimpleGrantedAuthority(userReg.getRole().getName()));
 		}
 
 		log.warn(" -- LUserDetailsServiceImpl - user=" + user.toString() + " \n passCrypt=" + user.getPassCrypt()
