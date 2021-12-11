@@ -17,15 +17,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 //@Data
+@Builder
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Entity
 @Table(name = "registrations_tb")
 public class UserRegistration {
@@ -50,6 +48,13 @@ public class UserRegistration {
 	private void init() {
 		if (this.registeredAt == null)
 			this.registeredAt = LocalDateTime.now();
+	}
+
+	@Override
+	public String toString() {
+		return "UserRegistration [id=" + id + ", registeredAt=" + registeredAt + ", user="
+				+ (getUser() != null ? user.getId() : null) + ", role=" + (getRole() != null ? role.getId() : null)
+				+ "]";
 	}
 
 }

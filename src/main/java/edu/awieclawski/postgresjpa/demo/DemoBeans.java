@@ -1,8 +1,5 @@
 package edu.awieclawski.postgresjpa.demo;
 
-//import java.util.Arrays;
-//import java.util.HashSet;
-
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 

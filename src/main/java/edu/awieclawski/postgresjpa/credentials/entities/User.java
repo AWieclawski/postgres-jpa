@@ -72,8 +72,9 @@ public class User {
 	public void addUserRegistration(UserRegistration registration) {
 		if (registrations == null)
 			registrations = new HashSet<>();
-		this.registrations.add(registration);
-		registration.setUser(this);
+		registrations.add(registration);
+		if (registration != null)
+			registration.setUser(this);
 	}
 
 	public void removeUserRegistration(UserRegistration registration) {
@@ -86,6 +87,13 @@ public class User {
 	public void prePersist() {
 		if (this.active == null)
 			this.active = Boolean.TRUE;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", passCrypt=" + passCrypt
+				+ ", passwordConfirm=" + passwordConfirm + ", userExists=" + userExists + ", active=" + active
+				+ ", registrations=" + (registrations != null && registrations.size() > 0 ? registrations : null) + "]";
 	}
 
 }

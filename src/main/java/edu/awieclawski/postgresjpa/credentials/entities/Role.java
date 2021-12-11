@@ -1,5 +1,6 @@
 package edu.awieclawski.postgresjpa.credentials.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -43,6 +44,25 @@ public class Role implements I_Role {
 	public void prePersist() {
 		if (this.name == null)
 			this.name = DEFAULT_ROLENAME;
+	}
+
+	public void addUserRegistration(UserRegistration registration) {
+		if (registrations == null)
+			registrations = new HashSet<>();
+		this.registrations.add(registration);
+		if (registration != null)
+			registration.setRole(this);
+	}
+
+	public void removeUserRegistration(UserRegistration registration) {
+		this.registrations.remove(registration);
+		registration.setRole(null);
+	}
+
+	@Override
+	public String toString() {
+		return "Role [id=" + id + ", name=" + name + ", registrations="
+				+ (registrations != null && registrations.size() > 0 ? registrations : null) + "]";
 	}
 
 }

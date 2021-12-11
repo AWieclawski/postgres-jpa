@@ -14,6 +14,7 @@ import edu.awieclawski.postgresjpa.credentials.entities.Role;
 import edu.awieclawski.postgresjpa.credentials.entities.User;
 import edu.awieclawski.postgresjpa.credentials.entities.UserRegistration;
 import edu.awieclawski.postgresjpa.credentials.repositories.RoleRepository;
+import edu.awieclawski.postgresjpa.credentials.repositories.UserRegistrationRepository;
 import edu.awieclawski.postgresjpa.credentials.repositories.UserRepository;
 import edu.awieclawski.postgresjpa.credentials.services.UserService;
 
@@ -26,7 +27,7 @@ import edu.awieclawski.postgresjpa.credentials.services.UserService;
 @Service
 public class UserServiceImpl implements UserService {
 
-	private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private UserRepository userRepository;
@@ -35,19 +36,26 @@ public class UserServiceImpl implements UserService {
 	private RoleRepository roleRepository;
 
 	@Autowired
+	private UserRegistrationRepository userRegistrationRepository;
+
+	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
 	public void save(User user) {
 		user.setPassCrypt(bCryptPasswordEncoder.encode(user.getPassword()));
-		user.addUserRegistration(UserRegistration.builder().role(getDefaulRole()).build());
+
+		if (user.getRegistrations() == null || user.getRegistrations().size() < 1)
+			user.addUserRegistration(UserRegistration.builder().role(getDefaulRole()).build());
+
 		userRepository.save(user);
+		saveUserRegistrationRepositories(user);
 	}
 
 	@Override
 	public User findByUsername(String username) {
 		return userRepository.findByUsername(username)
-				.orElseThrow(() -> new EntityNotFoundException(" UserService - User not found =" + username));
+				.orElseThrow(() -> new EntityNotFoundException(" - User not found =" + username));
 	}
 
 	@Override
@@ -63,20 +71,19 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
-//	private Set<Role> getDefaulRoles() {
-//		Set<Role> roles = new HashSet<>();
-//		roles.add(roleRepository.findByName(Role.DEFAULT_ROLENAME).orElseThrow(
-//				() -> new EntityNotFoundException(" UserService - Role not found =" + Role.DEFAULT_ROLENAME)));
-//		return roles;
-//	}
-
 	private Role getDefaulRole() {
-		return roleRepository.findByName(Role.DEFAULT_ROLENAME).orElseThrow(
-				() -> new EntityNotFoundException(" UserService - Role not found =" + Role.DEFAULT_ROLENAME));
+		return roleRepository.findByName(Role.DEFAULT_ROLENAME)
+				.orElseThrow(() -> new EntityNotFoundException(" - Role not found =" + Role.DEFAULT_ROLENAME));
 	}
 
 	@Override
 	public List<User> findAll() {
 		return userRepository.findAll();
+	}
+
+	private void saveUserRegistrationRepositories(User user) {
+		user.getRegistrations().stream().forEach(ureg -> {
+			userRegistrationRepository.save(ureg);
+		});
 	}
 }
