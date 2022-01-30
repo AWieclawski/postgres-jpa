@@ -18,9 +18,9 @@
 
 <title>Create an account</title>
 
-<link href="${contextPath}/resources/css/bootstrap.min.css"
+<link href="${contextPath}/bootstraps/css/bootstrap.min.css"
 	rel="stylesheet">
-<link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+<link href="${contextPath}/bootstraps/css/common.css" rel="stylesheet">
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
@@ -33,40 +33,42 @@
 
 	<div class="container">
 
-		<form:form method="POST" modelAttribute="userForm" class="form-signin">
+		<form:form method="POST" modelAttribute="userForm"
+			class="form-signin col-lg-4">
 			<h2 class="form-signin-heading">Create your account</h2>
 
-			<spring:bind path="username">
-				<div class="form-group ${status.error ? 'has-error' : ''}">
-					<form:input type="text" path="username" class="form-control"
-						placeholder="Username" autofocus="true"></form:input>
-					<form:errors path="username"></form:errors>
-				</div>
-			</spring:bind>
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<form:label class="control-label" path="username">Login:</form:label>
+				<form:input type="text" path="username" class="form-control"
+					placeholder="Username" autofocus="true"></form:input>
+				<form:errors path="username" class="small alert-warning"></form:errors>
+			</div>
 
-			<spring:bind path="password">
-				<div class="form-group ${status.error ? 'has-error' : ''}">
-					<form:input type="password" path="password" class="form-control"
-						placeholder="Password"></form:input>
-					<form:errors path="password"></form:errors>
-				</div>
-			</spring:bind>
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<form:label class="control-label" path="password">Password:</form:label>
+				<form:input type="password" path="password" class="form-control"
+					placeholder="Password"></form:input>
+				<form:errors path="password" class="small alert-warning"></form:errors>
+			</div>
 
-			<spring:bind path="passwordConfirm">
-				<div class="form-group ${status.error ? 'has-error' : ''}">
-					<form:input type="password" path="passwordConfirm"
-						class="form-control" placeholder="Confirm your password"></form:input>
-					<form:errors path="passwordConfirm"></form:errors>
-				</div>
-			</spring:bind>
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<form:label class="control-label" path="passwordConfirm">Re-typed password:</form:label>
+				<form:input type="password" path="passwordConfirm"
+					class="form-control" placeholder="Confirm your password"></form:input>
+				<form:errors path="passwordConfirm" class="small alert-warning"></form:errors>
+			</div>
 
 			<button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+
+			<h4 class="text-center">
+				<a href="${contextPath}/login">Log in</a>
+			</h4>
+
 		</form:form>
 
 	</div>
 	<!-- /container -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+	<script src="${contextPath}/bootstraps/js/jquery.min.js"></script>
+	<script src="${contextPath}/bootstraps/js/bootstrap.min.js"></script>
 </body>
 </html>
