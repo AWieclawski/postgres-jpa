@@ -50,13 +50,13 @@ public class Role implements I_Role {
 		if (registrations == null)
 			registrations = new HashSet<>();
 		this.registrations.add(registration);
-		if (registration != null)
-			registration.setRole(this);
+//		if (registration != null)
+//			registration.setRole(this);
 	}
 
 	public void removeUserRegistration(UserRegistration registration) {
 		this.registrations.remove(registration);
-		registration.setRole(null);
+//		registration.setRole(null);
 	}
 
 	@Override
